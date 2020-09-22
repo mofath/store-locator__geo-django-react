@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.gis',
     'django_extensions',
     'rest_framework',
     'corsheaders',
@@ -79,7 +80,7 @@ WSGI_APPLICATION = 'src.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',  
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',  
         'NAME': 'geo', 
         'USER': 'docker',
         'PASSWORD': 'docker',
