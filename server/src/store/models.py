@@ -1,6 +1,5 @@
 from django.contrib.gis.db import models
 
-# Create your models here.
 class Store(models.Model):
     name = models.CharField(max_length=25)
     address = models.CharField(max_length=255)

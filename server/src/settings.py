@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.gis',
     'django_extensions',
     'rest_framework',
+    'rest_framework_gis',
     'corsheaders',
     'src.store'
 ]
