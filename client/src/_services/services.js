@@ -1,11 +1,11 @@
 import Axios from 'axios'
 
-export const getLocus = () => {
+export const getLocus = ({lat, lng}) => {
     let msgError = null;
     let results = null;
     const suspender = async () => {
         try {
-            const { data } = await Axios.get(`/store`)
+            const { data } = await Axios.get(`/store?lat=${lat}&lng=${lng}`)
             msgError = false
             results = data;
         } catch (error) {

@@ -16,15 +16,17 @@ const App = () => {
     setHaveUserLoci(true);
   }
 
-  useEffect(() => userLocation(), []);
+  const getLoations = async ({lat, lng}) => {
+    dispatch({ type: "LOCUS_LOADING" })
+    const { results } = await getLocus({lat, lng}).read();
+    console.log(results);
+    dispatch({ type: "LOCUS_LOADED", payload: { locus: results } })
+  };
 
+  useEffect(() => userLocation(), []);
   useEffect(() => {
-    (async () => {
-      dispatch({ type: "LOCUS_LOADING" })
-      const { results } = await getLocus().read();
-      dispatch({ type: "LOCUS_LOADED", payload: { locus: results } })
-    })()
-  }, [])
+    if (HaveUserLoci) getLoations({lat : Position.lat, lng : Position.lng})
+  }, [HaveUserLoci]);
 
   return (
     <div className="app">
