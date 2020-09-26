@@ -1,0 +1,73 @@
+.PreLoaderContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.Bar{
+    position: absolute;
+    top: 80%;
+    width:60%;
+    height:1px;
+    border-bottom:solid 1px #dfdfdf;
+}
+
+.ProgressBar{
+  width:100%;
+  height:1.5px;
+  background:#aaa;
+  -webkit-animation:pbar 3s ease-in-out infinite;
+	-moz-animation:pbar 3s ease-in-out infinite;
+	-ms-animation:pbar 3s ease-in-out infinite;
+	-o-animation:pbar 3s ease-in-out infinite;
+	animation:pbar 3s ease-in-out infinite;
+}
+
+@keyframes pbar{
+	0%{width:0;}
+  50%{width:100%;}
+	100%{width:0;}
+} 
+@-webkit-keyframes pbar{
+	0%{width:0;}
+  50%{width:100%;}
+	100%{width:0;}
+} 
+
+@-moz-keyframes pbar{
+	0%{width:0;}
+  50%{width:100%;}
+	100%{width:0;}
+} 
+
+
+
+
+
+
+.MapLoader {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  font-family: 'Open Sans Condensed', sans-serif;
+  font-weight: bold;
+  font-size: 4em;
+  text-transform: uppercase;
+  text-align: center;
+  color: #aaa;
+  transform: translate(0, -50%);
+  animation: pulsetext 3s ease-in-out infinite;
+}
+
+@keyframes pulsetext {
+  0% { color: #ddd; }
+  50% { color: #aaa; }
+  100%{color: #ddd;}
+}
+
+@-moz-keyframes pulsetext {
+    0% { color: #ddd; }
+    50% { color: #aaa; }
+    100%{color: #ddd;}
+  }

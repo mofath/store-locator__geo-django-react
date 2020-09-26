@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 import L from 'leaflet';
 
@@ -6,44 +6,57 @@ import useIconURL from '../../../_assets/user-icon.svg';
 import groceryIconURL from '../../../_assets/grocery-icon.svg';
 import restaurantIconURL from '../../../_assets/restaurant-icon.svg';
 import hotelIconURL from '../../../_assets/hotel-icon.svg';
-import SideBar from '../SideBar/SideBar'
+import positionIconURL from '../../../_assets/crosshairs.svg';
 
-const userIcon = L.icon({ iconUrl: useIconURL, iconSize: [60, 83] })
-const hotelIcon = L.icon({ iconUrl: hotelIconURL, iconSize: [45, 70] })
-const groceryIcon = L.icon({ iconUrl: groceryIconURL, iconSize: [45, 70] })
-const restaurantIcon = L.icon({ iconUrl: restaurantIconURL, iconSize: [45, 70] })
+import SideBar from '../SideBar/SideBar';
+import classes from './MapContainer.module.css';
+
+const userIcon = L.icon({ iconUrl: useIconURL, iconSize: [60, 83] });
+const hotelIcon = L.icon({ iconUrl: hotelIconURL, iconSize: [45, 70] });
+const groceryIcon = L.icon({ iconUrl: groceryIconURL, iconSize: [45, 70] });
+const restaurantIcon = L.icon({ iconUrl: restaurantIconURL, iconSize: [45, 70] });
 
 const icons = {
     "hotel": hotelIcon,
     "grocery": groceryIcon,
     "restaurant": restaurantIcon
-}
+};
 
-const MapContainer = ({ locus, position, activeLoci, updateActiveLoci, userLoci, filter, isLoaded }) => {
+const MapContainer = ({
+    updateUserLocation, haveUserLoci, userLocation,
+    locus, filter, isLoaded, }) => {
+
+    const [ActiveLoci, setActiveLoci] = useState(null);
 
     return (
-        <div className="mapcontainer">
+        <div className={classes.MapContainer}>
             <Map
-                className="Map"
+                className="map"
                 zoom={13}
                 zoomControl={false}
-                worldCopyJump={true}
-                center={[position.lat, position.lng]}
+                center={[userLocation.lat, userLocation.lng]}
                 style={{ width: "100%", height: "100vh" }}
             >
                 <TileLayer
                     attribution="&amp;copy 
                     <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> 
-                    contributors" url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    contributors Mohamed Fathi" url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
-                {userLoci &&
+                {haveUserLoci &&
                     <Marker
-                        position={position}
-                        icon={userIcon}>
+                        position={{ lat: userLocation.lat, lng: userLocation.lng }}
+                        icon={userIcon}
+                        onclick={() => setActiveLoci({
+                            lat: userLocation.lat,
+                            lng: userLocation.lng,
+                            name: userLocation.name,
+                            address: userLocation.address
+                        })}
+                    >
                     </Marker>
                 }
                 {
-                    locus.map((loci) =>
+                    locus.map((loci, index) =>
                         <Marker
                             key={loci.pk}
                             position={[
@@ -51,26 +64,41 @@ const MapContainer = ({ locus, position, activeLoci, updateActiveLoci, userLoci,
                                 loci.location.coordinates[1]
                             ]}
                             icon={icons[loci.category]}
-                            onclick={() => updateActiveLoci(loci)}
-
+                            onclick={() => setActiveLoci({
+                                lat: loci.location.coordinates[0],
+                                lng: loci.location.coordinates[1],
+                                name: loci.name,
+                                address: loci.address
+                            })}
+                            key={index}
                         />
                     )}
 
-                {activeLoci &&
+                {ActiveLoci &&
                     <Popup
                         position={[
-                            activeLoci.location.coordinates[0],
-                            activeLoci.location.coordinates[1],
+                            ActiveLoci.lat,
+                            ActiveLoci.lng,
                         ]}
-                        onClose={() => updateActiveLoci(null)}
+                        onClose={() => setActiveLoci(null)}
                     >
-                        <div>
-                            <h2>{activeLoci.name}</h2>
-                            <p>{activeLoci.address}</p>
+                        <div className={classes.Popup}>
+                            <h2>{ActiveLoci.name}</h2>
+                            <h5><em>{ActiveLoci.address}</em></h5>
+                            <h6>
+                                {ActiveLoci.lat}
+                                &nbsp;&nbsp;{ActiveLoci.lng}
+                            </h6>
                         </div>
                     </Popup>
                 }
             </Map>
+
+            <button className={[classes.PositionBtn, "center-content"].join(' ')}
+                onClick={() => updateUserLocation()}
+            >
+                <img src={positionIconURL} />
+            </button>
             <SideBar
                 locus={locus}
                 filter={filter}

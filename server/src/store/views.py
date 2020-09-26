@@ -12,10 +12,10 @@ class ListCreateStores(generics.ListCreateAPIView):
     def get_queryset(self):
         qs =super().get_queryset()
         latitude = self.request.query_params.get('lat', None)
-        longitude = self.request.query_params.get('lat', None)
+        longitude = self.request.query_params.get('lng', None)
 
         if latitude and longitude:
-            pnt = GEOSGeometry('Point(' + str(longitude) + ' ' + str(latitude) + ')', srid=4326)
+            pnt = GEOSGeometry('Point(' + str(latitude) + ' ' + str(longitude) + ')', srid=4326)
             qs= qs.annotate(distance=Distance('location', pnt)).order_by('distance')
 
         return qs

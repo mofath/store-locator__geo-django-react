@@ -1,6 +1,6 @@
 import Axios from 'axios'
 
-export const getLocus = ({lat, lng}) => {
+export const getLocus = ({ lat, lng }) => {
     let msgError = null;
     let results = null;
     const suspender = async () => {
@@ -23,17 +23,21 @@ export const getLocus = ({lat, lng}) => {
 
 export const getUserLocation = () => {
     let msgError = null;
-    let location = { lat: null, lng: null };
+    let location = { lat: null, lng: null, name: "", address: "" };
     const suspender = async () => {
         try {
             const { data } = await Axios.get(`https://ipapi.co/json`);
             location.lat = data.latitude;
             location.lng = data.longitude;
+            location.name = data.city;
+            location.address = data.region;
             msgError = false;
         } catch (error) {
-            await navigator.geolocation.getCurrentPosition(pos => {
+            navigator.geolocation.getCurrentPosition(pos => {
                 location.lat = pos.coords.latitude;
                 location.lng = pos.coords.longitude;
+                location.name = "";
+                location.address = "";
             });
             msgError = true;
         }

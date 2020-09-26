@@ -29,8 +29,8 @@ const SideBar = ({ locus, filter, isLoaded }) => {
                 <div className={classes.SideBarItems}>
                     {
                         isLoaded ?
-                            locus.map((loci) => <SideBarItem loci={loci} isLoaded={isLoaded} />) :
-                            [...Array(7)].map((_, index) => <SideBarItem isLoaded={isLoaded} />)
+                            locus.map((loci, index) => <SideBarItem loci={loci} isLoaded={isLoaded} key={index} />) :
+                            [...Array(7)].map((_, index) => <SideBarItem isLoaded={isLoaded} key={index}/>)
                     }
                 </div>
             </div>

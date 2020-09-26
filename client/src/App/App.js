@@ -2,17 +2,23 @@ import React, { useState, useEffect, useContext } from 'react';
 import MapContainer from './Components/MapContainer/MapContainer';
 import { getLocus, getUserLocation } from '../_services/services';
 import { LocusContext } from '../_store/locus.context';
+import PreLoader from './Components/PreLoader/PreLoader';
 
 const App = () => {
-  const [Position, setPosition] = useState({ lat: 30.043489, lng: 31.235291 });
   const [HaveUserLoci, setHaveUserLoci] = useState(false);
-  const [ActiveLoci, setActiveLoci] = useState(null);
+  const [UserLocation, setUserLocation] = useState({
+    lat: 30.043489, lng: 31.235291, name: "", address: ""
+  });
+  
   const { dispatch, state } = useContext(LocusContext);
-  const updateActiveLoci = (loci) => setActiveLoci(loci);
 
-  const userLocation = async () => {
+  const updateUserLocation = async () => {
     const { location } = await getUserLocation().read();
-    setPosition(Position => ({ ...Position, lat: location.lat, lng: location.lng }));
+    setUserLocation(UserLocation => ({
+      ...UserLocation,
+      lat: location.lat, lng: location.lng,
+      name: location.name, location: location.address
+    }));
     setHaveUserLoci(true);
   }
 
@@ -26,22 +32,26 @@ const App = () => {
     dispatch({ type: "LOCUS_LOADED", payload: { locus: results } })
   };
 
-  useEffect(() => userLocation(), []);
+  useEffect(() => updateUserLocation(), []);
   useEffect(() => {
-    if (HaveUserLoci) getLoations({ lat: Position.lat, lng: Position.lng })
+    if (HaveUserLoci) getLoations({ lat: UserLocation.lat, lng: UserLocation.lng })
   }, [HaveUserLoci]);
 
   return (
     <div className="app">
-        <MapContainer
-          position={Position}
-          locus={state.locusSelectors}
-          activeLoci={ActiveLoci}
-          updateActiveLoci={updateActiveLoci}
-          userLoci={HaveUserLoci}
-          filter={filterLocus}
-          isLoaded={state.isLoaded}
-        />
+      {
+        state.isLoaded ?
+          <MapContainer
+            isLoaded={state.isLoaded}
+            locus={state.locusSelectors}
+            haveUserLoci={HaveUserLoci}
+            userLocation={UserLocation}
+            filter={filterLocus}
+            updateUserLocation={updateUserLocation}
+          />
+          :
+          <PreLoader />
+      }
     </div>
   )
 }
