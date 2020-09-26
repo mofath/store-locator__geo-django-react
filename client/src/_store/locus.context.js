@@ -4,6 +4,7 @@ import locusReducer from './locus.reducer';
 export let INITIAL_STATE = {
     isLoaded: null,
     locus: [],
+    locusSelectors:[],
 };
 
 const LocusContext = createContext(INITIAL_STATE);

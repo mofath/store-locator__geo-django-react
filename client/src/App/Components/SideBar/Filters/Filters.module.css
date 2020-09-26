@@ -1,0 +1,21 @@
+.FiltersContainer{
+    justify-content: space-between;
+    padding: 10px 5px;
+    background-color: white;
+}
+
+.Filter img{
+    height: 40px;
+    width: auto;
+}
+.Filter button{
+    padding: 15px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+}
+.Hotel{  background-color: #e37400;}
+.Restaurant { background-color: #129eaf; }
+.Grocery{ background-color: #188038; }
+.All{ background-color: #c5221f; }
+

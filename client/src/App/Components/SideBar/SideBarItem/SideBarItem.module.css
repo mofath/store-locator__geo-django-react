@@ -1,0 +1,30 @@
+.SideBarItem{
+    padding: 12px 5px;
+    cursor: pointer;
+    background-color: white;
+    border-bottom: solid 1px #f5f5f5;
+    border-top: solid 1px #f5f5f5;
+}
+
+.SideBarItem:hover{
+    background-color: #f5f5f5;
+}
+
+.Heading{
+    display: flex;
+    justify-content: space-between;
+    text-transform: capitalize;
+}
+
+.Heading h4{
+    padding-bottom: 7px;
+}
+
+.SideBarItem h5{
+    color: #939ba3;
+}
+
+.SideBarItem h5:first-child{
+    padding-bottom: 10px;
+}
+

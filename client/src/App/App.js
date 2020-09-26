@@ -16,27 +16,31 @@ const App = () => {
     setHaveUserLoci(true);
   }
 
-  const getLoations = async ({lat, lng}) => {
+  const filterLocus = (filter) => {
+    dispatch({ type: "FILTER", payload: filter })
+  }
+
+  const getLoations = async ({ lat, lng }) => {
     dispatch({ type: "LOCUS_LOADING" })
-    const { results } = await getLocus({lat, lng}).read();
-    console.log(results);
+    const { results } = await getLocus({ lat, lng }).read();
     dispatch({ type: "LOCUS_LOADED", payload: { locus: results } })
   };
 
   useEffect(() => userLocation(), []);
   useEffect(() => {
-    if (HaveUserLoci) getLoations({lat : Position.lat, lng : Position.lng})
+    if (HaveUserLoci) getLoations({ lat: Position.lat, lng: Position.lng })
   }, [HaveUserLoci]);
 
   return (
     <div className="app">
-      <MapContainer
-        position={Position}
-        locus={state.locus}
-        activeLoci={ActiveLoci}
-        updateActiveLoci={updateActiveLoci}
-        userLoci={HaveUserLoci}
-      />
+        <MapContainer
+          position={Position}
+          locus={state.locusSelectors}
+          activeLoci={ActiveLoci}
+          updateActiveLoci={updateActiveLoci}
+          userLoci={HaveUserLoci}
+          filter={filterLocus}
+        />
     </div>
   )
 }

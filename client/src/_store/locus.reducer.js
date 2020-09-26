@@ -12,6 +12,18 @@ const locusReducer = (state, action) => {
                 ...state,
                 isLoaded: true,
                 locus: action.payload.locus,
+                locusSelectors: action.payload.locus,
+            };
+
+        case "FILTER":
+            if (action.payload === "all")
+                return {
+                    ...state,
+                    locusSelectors: state.locus
+                };
+            return {
+                ...state,
+                locusSelectors: state.locus.filter((item) => item.category === action.payload)
             };
 
         default:

@@ -1,0 +1,31 @@
+.SearchBar{
+    width: 100%;
+    padding: 5px 10px;
+    border: solid 1px #c6c6c6;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+.SearchBar input{
+    width: 90%;
+    border: none;
+    height: 35px;
+    border-right: solid 1px #c6c6c6;
+    font-size: 15px;
+    text-indent: 7px;
+    margin-right: 10px;
+}
+.SearchBar button{
+    width: 10%;
+    height: 35px;
+    border: none;
+    background-color: white;
+    cursor: pointer;
+}
+
+.SearchBar button img{
+    height: 70%;
+    width: auto;
+    border: none;
+    background-color: white;
+}

@@ -10,5 +10,5 @@ class StoreSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Store
-        fields = ('id', 'name', 'address', 'location', 'distance')
+        fields = ('id', 'name', 'address', 'location', 'distance', 'category')
         #read_only_fields = ('location',)
