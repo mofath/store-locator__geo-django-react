@@ -40,6 +40,7 @@ const App = () => {
           updateActiveLoci={updateActiveLoci}
           userLoci={HaveUserLoci}
           filter={filterLocus}
+          isLoaded={state.isLoaded}
         />
     </div>
   )

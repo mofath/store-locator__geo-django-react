@@ -12,21 +12,33 @@
     margin-left: 10px;
     top: 1%;
 }
-.TogglerActive,
 .TogglerBtn{
     position: absolute;
-    top:15%;
+    top:12%;
     left: 10px;
-    background-color: tomato;
-    height: 40px;
-    width: 50px;
+    background-color: white;
     z-index: 1000000000000;
     cursor: pointer;
+    padding: 5px 5px;
+    border: solid 1px #c0bebe;
+    border-radius: 5px;
+}
+
+.TogglerBtn:hover{
+    opacity: 0.9;
+    background-color: #f5f5f5;
+}
+
+
+
+.TogglerBtn img{
+    width:14px;
+    height: auto;
 }
 
 .SideBar{ left: -30%; }
 .ActiveBar{ left: 5px;}
-.TogglerBtn{ left:21%; }
+.TogglerDefault{ left:21%; }
 .TogglerActive{ left:5px; }
 
 

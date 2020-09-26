@@ -4,21 +4,23 @@ import classes from './SideBar.module.css';
 import SearchBar from './SearchBar/SearchBar';
 import Filters from './Filters/Filter';
 import SideBarItem from './SideBarItem/SideBarItem';
-
-const SideBar = ({ locus, filter }) => {
+import righitIcon from '../../../_assets/caret-right.svg'
+import leftIcon from '../../../_assets/caret-left.svg'
+const SideBar = ({ locus, filter, isLoaded }) => {
     const [Active, setActive] = useState(true);
     const toggleMenu = () => setActive(!Active);
 
     return (
         <div className={classes.SideBarContainer}>
             <div
-                className={Active ? classes.TogglerBtn : classes.TogglerActive}
+                className={["center-content",  classes.TogglerBtn,
+                Active ? classes.TogglerDefault : classes.TogglerActive].join(' ')}
                 onClick={() => toggleMenu()}
             >
-                heell
+                <img src={Active ? leftIcon : righitIcon} />
             </div>
-            
-              
+
+
             <div className={Active ? classes.ActiveBar : classes.SideBar}>
                 <div className={classes.SideBarHeading}>
                     <SearchBar />
@@ -26,7 +28,9 @@ const SideBar = ({ locus, filter }) => {
                 </div>
                 <div className={classes.SideBarItems}>
                     {
-                        locus.map((loci) => <SideBarItem loci={loci} />)
+                        isLoaded ?
+                            locus.map((loci) => <SideBarItem loci={loci} isLoaded={isLoaded} />) :
+                            [...Array(7)].map((_, index) => <SideBarItem isLoaded={isLoaded} />)
                     }
                 </div>
             </div>

@@ -6,9 +6,9 @@
     border-top: solid 1px #f5f5f5;
 }
 
-.SideBarItem:hover{
-    background-color: #f5f5f5;
-}
+.SideBarItem:hover{ background-color: #f5f5f5; }
+
+.SideBarItem h5{ color: #939ba3;} 
 
 .Heading{
     display: flex;
@@ -16,15 +16,25 @@
     text-transform: capitalize;
 }
 
-.Heading h4{
+
+.Title {
     padding-bottom: 7px;
+    width: 70%!important;
+}
+.Address {
+    padding-bottom: 7px;
+    width: 50%!important;
+    height: 20px!important;
+    box-sizing: content-box;
 }
 
-.SideBarItem h5{
-    color: #939ba3;
+.Distance {
+    width: 35%!important;
+    height: 20px!important;
 }
 
-.SideBarItem h5:first-child{
-    padding-bottom: 10px;
-}
+
+
+
+
 

@@ -19,7 +19,7 @@ const icons = {
     "restaurant": restaurantIcon
 }
 
-const MapContainer = ({ locus, position, activeLoci, updateActiveLoci, userLoci, filter }) => {
+const MapContainer = ({ locus, position, activeLoci, updateActiveLoci, userLoci, filter, isLoaded }) => {
 
     return (
         <div className="mapcontainer">
@@ -74,6 +74,7 @@ const MapContainer = ({ locus, position, activeLoci, updateActiveLoci, userLoci,
             <SideBar
                 locus={locus}
                 filter={filter}
+                isLoaded={isLoaded}
             />
         </div>
     )
