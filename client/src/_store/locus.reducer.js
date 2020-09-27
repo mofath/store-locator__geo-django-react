@@ -11,19 +11,19 @@ const locusReducer = (state, action) => {
             return {
                 ...state,
                 isLoaded: true,
+                initialLocus: action.payload.locus,
                 locus: action.payload.locus,
-                locusSelectors: action.payload.locus,
             };
 
         case "FILTER":
             if (action.payload === "all")
                 return {
                     ...state,
-                    locusSelectors: state.locus
+                    locus: state.initialLocus
                 };
             return {
                 ...state,
-                locusSelectors: state.locus.filter((item) => item.category === action.payload)
+                locus: state.initialLocus.filter((item) => item.category === action.payload)
             };
 
         default:

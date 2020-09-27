@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 import L from 'leaflet';
+import PropTypes from 'prop-types';
 
 import useIconURL from '../../../_assets/user-icon.svg';
 import groceryIconURL from '../../../_assets/grocery-icon.svg';
@@ -58,7 +60,7 @@ const MapContainer = ({
                 {
                     locus.map((loci, index) =>
                         <Marker
-                            key={loci.pk}
+                            key={index}
                             position={[
                                 loci.location.coordinates[0],
                                 loci.location.coordinates[1]
@@ -70,7 +72,6 @@ const MapContainer = ({
                                 name: loci.name,
                                 address: loci.address
                             })}
-                            key={index}
                         />
                     )}
 
@@ -97,7 +98,7 @@ const MapContainer = ({
             <button className={[classes.PositionBtn, "center-content"].join(' ')}
                 onClick={() => updateUserLocation()}
             >
-                <img src={positionIconURL} />
+                <img src={positionIconURL} alt="" />
             </button>
             <SideBar
                 locus={locus}
@@ -107,5 +108,20 @@ const MapContainer = ({
         </div>
     )
 }
+
+MapContainer.propTypes = {
+    isLoaded: PropTypes.bool.isRequired,
+    haveUserLoci: PropTypes.bool.isRequired,
+    locus: PropTypes.array,
+    filter: PropTypes.func,
+    updateUserLocation: PropTypes.func,
+    userLocation: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        address: PropTypes.string.isRequired,
+        category: PropTypes.string,
+        distance: PropTypes.string,
+    })
+}
+
 
 export default MapContainer;

@@ -1,23 +1,42 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
+
+import PropTypes from 'prop-types';
 
 import classes from './SideBar.module.css';
 import SearchBar from './SearchBar/SearchBar';
 import Filters from './Filters/Filter';
 import SideBarItem from './SideBarItem/SideBarItem';
-import righitIcon from '../../../_assets/caret-right.svg'
-import leftIcon from '../../../_assets/caret-left.svg'
+import righitIcon from '../../../_assets/caret-right.svg';
+import leftIcon from '../../../_assets/caret-left.svg';
+
 const SideBar = ({ locus, filter, isLoaded }) => {
     const [Active, setActive] = useState(true);
+    const [ShowLoader, setShowLoader] = useState(true);
+
     const toggleMenu = () => setActive(!Active);
+
+
+    // this is a workaround to display
+    // loasding skeleton for 1s whenever a filter is applied
+    const timeoutRef = useRef();
+    useEffect(() => {
+        if (isLoaded) {
+            timeoutRef.current = setTimeout(() => setShowLoader(false), 1000);
+            return () => {
+                setShowLoader(true)
+                clearTimeout(timeoutRef.current);
+            }
+        }
+    }, [isLoaded, locus]);
 
     return (
         <div className={classes.SideBarContainer}>
             <div
-                className={["center-content",  classes.TogglerBtn,
-                Active ? classes.TogglerDefault : classes.TogglerActive].join(' ')}
+                className={["center-content", classes.TogglerBtn,
+                    Active ? classes.TogglerDefault : classes.TogglerActive].join(' ')}
                 onClick={() => toggleMenu()}
             >
-                <img src={Active ? leftIcon : righitIcon} />
+                <img src={Active ? leftIcon : righitIcon} alt="" />
             </div>
 
 
@@ -28,16 +47,29 @@ const SideBar = ({ locus, filter, isLoaded }) => {
                 </div>
                 <div className={classes.SideBarItems}>
                     {
-                        isLoaded ?
-                            locus.map((loci, index) => <SideBarItem loci={loci} isLoaded={isLoaded} key={index} />) :
-                            [...Array(7)].map((_, index) => <SideBarItem isLoaded={isLoaded} key={index}/>)
+                        ShowLoader ?
+                            [...Array(7)].map((_, index) => <SideBarItem showLoader={ShowLoader} key={index} />)
+                            :
+                            locus.map((loci, index) => <SideBarItem loci={loci} showLoader={ShowLoader} key={index} />)
                     }
                 </div>
             </div>
-
-
         </div>
     )
 }
 
-export default SideBar;
+SideBar.propTypes = {
+    isLoaded : PropTypes.bool.isRequired,
+    locus : PropTypes.array,
+    filter : PropTypes.func
+}
+
+export default React.memo(
+    SideBar,
+    (prevProps, nextProps) =>
+        nextProps.isLoaded === prevProps.isLoaded &&
+        nextProps.locus === prevProps.locus &&
+        nextProps.filter === prevProps.filter
+);
+
+

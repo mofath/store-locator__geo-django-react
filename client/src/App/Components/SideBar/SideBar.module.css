@@ -6,7 +6,8 @@
     padding: 10px 0;
     box-shadow: 10px 0 5px -2px #888;
     overflow-y: hidden;
-
+    will-change: transform;
+    
     z-index: 999;
     position: fixed;
     margin-left: 10px;

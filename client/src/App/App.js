@@ -1,41 +1,14 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useContext } from 'react';
+
 import MapContainer from './Components/MapContainer/MapContainer';
-import { getLocus, getUserLocation } from '../_services/services';
-import { LocusContext } from '../_store/locus.context';
 import PreLoader from './Components/PreLoader/PreLoader';
+import { LocusContext } from '../_store/locus.context';
+import { useFetch } from './fetchHook';
 
 const App = () => {
-  const [HaveUserLoci, setHaveUserLoci] = useState(false);
-  const [UserLocation, setUserLocation] = useState({
-    lat: 30.043489, lng: 31.235291, name: "", address: ""
-  });
-  
+  const { HaveUserLoci, UserLocation, updateUserLocation } = useFetch();
   const { dispatch, state } = useContext(LocusContext);
-
-  const updateUserLocation = async () => {
-    const { location } = await getUserLocation().read();
-    setUserLocation(UserLocation => ({
-      ...UserLocation,
-      lat: location.lat, lng: location.lng,
-      name: location.name, location: location.address
-    }));
-    setHaveUserLoci(true);
-  }
-
-  const filterLocus = (filter) => {
-    dispatch({ type: "FILTER", payload: filter })
-  }
-
-  const getLoations = async ({ lat, lng }) => {
-    dispatch({ type: "LOCUS_LOADING" })
-    const { results } = await getLocus({ lat, lng }).read();
-    dispatch({ type: "LOCUS_LOADED", payload: { locus: results } })
-  };
-
-  useEffect(() => updateUserLocation(), []);
-  useEffect(() => {
-    if (HaveUserLoci) getLoations({ lat: UserLocation.lat, lng: UserLocation.lng })
-  }, [HaveUserLoci]);
+  const filterLocus = (filter) => dispatch({ type: "FILTER", payload: filter });
 
   return (
     <div className="app">
@@ -43,7 +16,7 @@ const App = () => {
         state.isLoaded ?
           <MapContainer
             isLoaded={state.isLoaded}
-            locus={state.locusSelectors}
+            locus={state.locus}
             haveUserLoci={HaveUserLoci}
             userLocation={UserLocation}
             filter={filterLocus}

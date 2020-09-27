@@ -1,10 +1,10 @@
-import React, { useReducer, createContext, useEffect } from 'react';
+import React, { useReducer, createContext } from 'react';
 import locusReducer from './locus.reducer';
 
 export let INITIAL_STATE = {
-    isLoaded: null,
-    locus: [],
-    locusSelectors:[],
+    isLoaded: false,
+    initialLocus: [],
+    locus:[],
 };
 
 const LocusContext = createContext(INITIAL_STATE);
