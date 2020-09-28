@@ -17,7 +17,7 @@ const SideBar = ({ locus, filter, isLoaded }) => {
 
 
     // this is a workaround to display
-    // loasding skeleton for 1s whenever a filter is applied
+    // loading skeleton for 1's whenever a filter is applied
     const timeoutRef = useRef();
     useEffect(() => {
         if (isLoaded) {

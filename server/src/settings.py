@@ -41,8 +41,10 @@ INSTALLED_APPS = [
     'django_extensions',
     'rest_framework',
     'rest_framework_gis',
+    'django.conf',
+    'import_export',
     'corsheaders',
-    'src.store'
+    'src.store',
 ]
 
 MIDDLEWARE = [
@@ -81,13 +83,13 @@ WSGI_APPLICATION = 'src.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.postgis',  
-        'NAME': 'geo', 
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': 'geo',
         'USER': 'docker',
         'PASSWORD': 'docker',
-        'HOST': 'localhost',  
-        'PORT': '5432',  
-    }   
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
 }
 
 
