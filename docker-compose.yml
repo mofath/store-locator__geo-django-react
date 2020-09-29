@@ -3,14 +3,35 @@ version: '3'
 services:
   client:
     container_name: client
-    build: "client/"
-    working_dir: /code/client
+    build: ./client
+    working_dir: ./code/client
     ports:
       - 3000:3000
     volumes:
-      - ./client:/code/client
-      - '/code/client/node_modules'
+      - ./client:/app/client
+      - node-modules:/app/client/node_modules
+      
+   db:
+    image: kartoza/postgis:12.0
+    container_name: geo_db
+    environment:
+      - POSTGRES_USER=docker
+      - POSTGRES_PASS=docker
+      - POSTGRES_DBNAME=geo
+    ports:
+      - "5432:5432"
+    
+  server:
+    container_name: geo_server
+    build: ./server
+    command: ["python3", "manage.py", "runserver", "0.0.0.0:8008"]
+    volumes:
+       - ./server:/app/server
+    ports:
+      - "8008:8008"
+    depends_on:
+      - db
 
 
 volumes:
-    client:
+    node_modules:

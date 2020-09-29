@@ -4,6 +4,10 @@
     background-color: white;
 }
 
+.Filter:hover{
+    opacity: 0.5;
+    filter:drop-shadow(8px 8px 10px gray)
+}
 .Filter button{
     padding: 15px;
     border-radius: 50%;
@@ -14,6 +18,11 @@
     height: 40px;
     width: auto;
 }
+.Filter button:focus,
+.Filter button:hover{
+    outline: none;
+}
+
 .Filter p{
     padding-top: 5px;
     padding-bottom: 7px;
