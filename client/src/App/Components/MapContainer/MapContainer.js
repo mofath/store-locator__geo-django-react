@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
-import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
+import { Map, Marker, Popup, TileLayer, ZoomControl } from 'react-leaflet';
 import L from 'leaflet';
 import PropTypes from 'prop-types';
 
@@ -9,9 +9,10 @@ import groceryIconURL from '../../../_assets/grocery-icon.svg';
 import restaurantIconURL from '../../../_assets/restaurant-icon.svg';
 import hotelIconURL from '../../../_assets/hotel-icon.svg';
 import positionIconURL from '../../../_assets/crosshairs.svg';
-
 import SideBar from '../SideBar/SideBar';
 import classes from './MapContainer.module.css';
+import Control from 'react-leaflet-control';
+
 
 const userIcon = L.icon({ iconUrl: useIconURL, iconSize: [60, 83] });
 const hotelIcon = L.icon({ iconUrl: hotelIconURL, iconSize: [45, 70] });
@@ -25,20 +26,26 @@ const icons = {
 };
 
 const MapContainer = ({
-    updateUserLocation, haveUserLoci, userLocation,
+    haveUserLoci, userLocation,
     locus, filter, isLoaded, }) => {
-
+    const mapRef = useRef(null);
     const [ActiveLoci, setActiveLoci] = useState(null);
+    const [Center, setCenter] = useState([userLocation.lat, userLocation.lng]);
+    useEffect(()=>{},[Center])
 
     return (
         <div className={classes.MapContainer}>
+
             <Map
                 className="map"
                 zoom={13}
                 zoomControl={false}
-                center={[userLocation.lat, userLocation.lng]}
+                center={Center}
                 style={{ width: "100%", height: "100vh" }}
+                ref={mapRef}
             >
+                <ZoomControl position="topright" />
+
                 <TileLayer
                     attribution="&amp;copy 
                     <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> 
@@ -67,8 +74,8 @@ const MapContainer = ({
                             ]}
                             icon={icons[loci.category]}
                             onclick={() => setActiveLoci({
-                                lat: loci.location.coordinates[0],
-                                lng: loci.location.coordinates[1],
+                                lat: loci.location.coordinates[0]+0.2,
+                                lng: loci.location.coordinates[1]+0.2,
                                 name: loci.name,
                                 address: loci.address
                             })}
@@ -93,13 +100,25 @@ const MapContainer = ({
                         </div>
                     </Popup>
                 }
+                <Control >
+                    <button className={[classes.PositionBtn, "center-content"].join(' ')}
+                    
+                        onClick={() => {
+                            setCenter(prevstate =>[
+                                ...prevstate,
+                                userLocation.lat,
+                                userLocation.lng
+                            ])
+                            mapRef.current._updating=true
+
+                        }}
+                    >
+                        <img src={positionIconURL} alt="" />
+                    </button>
+                </Control>
             </Map>
 
-            <button className={[classes.PositionBtn, "center-content"].join(' ')}
-                onClick={() => updateUserLocation()}
-            >
-                <img src={positionIconURL} alt="" />
-            </button>
+
             <SideBar
                 locus={locus}
                 filter={filter}

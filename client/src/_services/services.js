@@ -1,6 +1,6 @@
 import Axios from 'axios';
 
-export const getLocus = ({ lat, lng }) => {
+export const fetchLocus = ({ lat, lng }) => {
     let msgError = null;
     let results = null;
     const suspender = async () => {
@@ -21,7 +21,7 @@ export const getLocus = ({ lat, lng }) => {
     }
 }
 
-export const getUserLocation = () => {
+export const fetchUserLocation = () => {
     let msgError = null;
     let location = { lat: null, lng: null, name: "", address: "" };
     const suspender = async () => {
